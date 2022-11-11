@@ -1,0 +1,4 @@
+
+chromium :: 79.0.3945.130
+https://chromium.cypress.io/mac/stable/79.0.3945.130
+Solution doesn't work in Firefox 106.0.5 (64-bit)

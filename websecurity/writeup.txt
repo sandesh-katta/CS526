@@ -1,0 +1,63 @@
+Writeup: Better Defense
+
+Team Members : Sandesh Katta (0034782137), Pruthvi Belide (0034714949)
+
+1.SQL Injection prevention
+
+Input validation and parametrized queries with prepared statements are the only effective 
+defenses againstvSQL Injection attacks. The application code shouldn't ever make direct use
+of the input. Not just web form inputs like login forms must be sanitized by the developer, 
+all the inputs must be done so.
+
+When converting SQL result sets into code objects, many development teams prefer to use 
+Object Relational Mapping (ORM) frameworks. With the use of ORM technologies, developers
+rarely need to create SQL statements in their code as these tools internally employ 
+parameterized statements.
+
+You might use the more recent versions of mysqli_real_escape_string() in place of risky ones
+like mysql_real_escape_string(). Avoid encoding with a weak character set, such as (utf8)
+
+2.XSS prevention
+
+Escape user input- Escaping means to convert the key characters in the data that a web page 
+receives to prevent the data from being interpreted in any malicious way. It prevents the 
+rendering of special characters.
+
+Validate user input - Consider anything that comes from a source outside the system to be 
+unreliable. Verify each and every input value. Utilize an allowlist of well-known, reliable input.
+
+Sanitize data - Verify and eliminate undesirable information, such as questionable HTML tags. 
+Remove any dangerous characters from the data while keeping the safe data.
+
+You could use common signature techniques with private and public keys to confirm the legitimacy 
+of script code. 
+
+Use appropriate response headers - To prevent XSS in HTTP responses that aren't intended to contain
+any HTML or JavaScript, you can use the Content-Type and X-Content-Type-Options headers to ensure 
+that browsers interpret the responses in the way you intend.
+
+Use Content Security Policy - As a last line of defense against attackers, you can use Content 
+Security Policy (CSP) to reduce the severity of any XSS vulnerabilities that still occur.
+
+3. CSRF prevention
+
+Token Based Mitigation - The synchronizer token pattern is one of the most popular and recommended methods
+to mitigate CSRF. Many frameworks have safeguards against synchronizer tokens built in. Before attempting
+to create a custom token generation system, it is strongly advised to find out if the framework you are 
+using has an option to implement CSRF protection by default. For instance,.NET includes built-in security
+that adds a token to resources that are CSRF vulnerable. Before implementing these built-in CSRF protections
+that produce tokens to protect CSRF sensitive resources, you are responsible for correct configuration such
+as key management and token management.
+
+Double Submit Cookie - If maintaining the state for CSRF token at server side is problematic, an alternative 
+defense is to use the double submit cookie technique. we send a random value in both a cookie and as a request
+parameter, with the server verifying if the cookie value and request value match. When a user visits (even 
+before authenticating to prevent login CSRF), the site should generate a (cryptographically strong) pseudorandom
+value and set it as a cookie on the user's machine separate from the session identifier. The site then requires
+that every transaction request include this pseudorandom value as a hidden form value (or other request parameter
+/header). If both of them match at server side, the server accepts it as legitimate request and if they 
+don't, it would reject the request.
+
+SameSite Cookie Attribute - SameSite is a cookie attribute (similar to HTTPOnly, Secure etc.) which aims 
+to mitigate CSRF attacks. It is defined in RFC6265bis. This attribute helps the browser decide whether to 
+send cookies along with cross-site requests.
